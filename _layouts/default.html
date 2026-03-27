@@ -22,7 +22,11 @@
         <h2 class="panel-title">目录</h2>
         <nav>
           <ul class="nav-list">
-            {% assign docs = site.pages | where_exp: "p", "p.path contains '.md'" | sort: "path" %}
+            {% assign all_docs = site.pages | where_exp: "p", "p.path contains '.md'" %}
+            {% assign visible_docs = all_docs | where_exp: "p", "p.nav_exclude != true" %}
+            {% assign ordered_docs = visible_docs | where_exp: "p", "p.nav_order != nil" | sort: "nav_order" %}
+            {% assign unordered_docs = visible_docs | where_exp: "p", "p.nav_order == nil" | sort: "path" %}
+            {% assign docs = ordered_docs | concat: unordered_docs %}
             {% for p in docs %}
               {% unless p.url contains '/404' %}
                 <li>
