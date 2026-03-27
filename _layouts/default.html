@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      {% if page.title %}{{ page.title }} - {% endif %}{{ site.title | default: "Agent 面试题集" }}
+    </title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <aside class="sidebar-left">
+        <h2 class="panel-title">目录</h2>
+        <nav>
+          <ul class="nav-list">
+            {% assign docs = site.pages | where_exp: "p", "p.path contains '.md'" | sort: "path" %}
+            {% for p in docs %}
+              {% unless p.url contains '/404' %}
+                <li>
+                  <a
+                    href="{{ p.url | relative_url }}"
+                    class="{% if p.url == page.url %}active{% endif %}"
+                  >
+                    {{ p.title | default: p.name | replace: '.md', '' | replace: '.html', '' }}
+                  </a>
+                </li>
+              {% endunless %}
+            {% endfor %}
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <article class="doc-content" id="doc-content">
+          {{ content }}
+        </article>
+      </main>
+
+      <aside class="sidebar-right">
+        <h2 class="panel-title">本页小标题</h2>
+        <nav id="page-toc">
+          <ul id="toc-list" class="toc-list"></ul>
+        </nav>
+      </aside>
+    </div>
+
+    <script>
+      (function buildToc() {
+        var content = document.getElementById("doc-content");
+        var tocList = document.getElementById("toc-list");
+        if (!content || !tocList) return;
+
+        var headings = content.querySelectorAll("h2, h3");
+        if (!headings.length) {
+          var empty = document.createElement("li");
+          empty.textContent = "本页暂无二级/三级标题";
+          empty.className = "toc-empty";
+          tocList.appendChild(empty);
+          return;
+        }
+
+        headings.forEach(function (heading, index) {
+          if (!heading.id) {
+            heading.id = "section-" + index;
+          }
+          var li = document.createElement("li");
+          li.className = heading.tagName.toLowerCase() === "h3" ? "toc-level-3" : "toc-level-2";
+
+          var link = document.createElement("a");
+          link.href = "#" + heading.id;
+          link.textContent = heading.textContent;
+          li.appendChild(link);
+          tocList.appendChild(li);
+        });
+      })();
+    </script>
+  </body>
+</html>
