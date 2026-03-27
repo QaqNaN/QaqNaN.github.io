@@ -4,7 +4,7 @@ title: 首页
 ---
 
 # Agent 面试题集
-
+点击查看网页版（https://qaqnan.github.io/）
 欢迎！这里整理了智能体（Agent）相关的面试题，按分类列出：
 
 - [基础概念题](大模型.md)
