@@ -5,6 +5,29 @@
   --text: #222222;
   --muted: #6b7280;
   --primary: #2563eb;
+  --title: #111827;
+  --link-text: #374151;
+  --link-hover-bg: #eef4ff;
+  --link-hover-text: #1d4ed8;
+  --button-bg: #ffffff;
+  --button-border: #d1d5db;
+  --button-text: #111827;
+}
+
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --panel-bg: #111827;
+  --border: #2b3648;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --primary: #93c5fd;
+  --title: #f3f4f6;
+  --link-text: #d1d5db;
+  --link-hover-bg: #1f2937;
+  --link-hover-text: #bfdbfe;
+  --button-bg: #1f2937;
+  --button-border: #374151;
+  --button-text: #e5e7eb;
 }
 
 * {
@@ -67,7 +90,7 @@ a:hover {
 .panel-title {
   font-size: 16px;
   margin: 0 0 12px;
-  color: #111827;
+  color: var(--title);
 }
 
 .nav-list,
@@ -87,15 +110,32 @@ a:hover {
   display: block;
   padding: 6px 10px;
   border-radius: 8px;
-  color: #374151;
+  color: var(--link-text);
 }
 
 .nav-list a:hover,
 .toc-list a:hover,
 .nav-list a.active {
-  background: #eef4ff;
-  color: #1d4ed8;
+  background: var(--link-hover-bg);
+  color: var(--link-hover-text);
   text-decoration: none;
+}
+
+.theme-toggle {
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 8px 12px;
+  border: 1px solid var(--button-border);
+  border-radius: 8px;
+  background: var(--button-bg);
+  color: var(--button-text);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.theme-toggle:hover {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .toc-level-3 a {

@@ -1,11 +1,19 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>
       {% if page.title %}{{ page.title }} - {% endif %}{{ site.title | default: "Agent 面试题集" }}
     </title>
+    <script>
+      (function initTheme() {
+        var savedTheme = localStorage.getItem("theme");
+        var systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var theme = savedTheme || (systemDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}" />
   </head>
   <body>
@@ -38,6 +46,9 @@
       </main>
 
       <aside class="sidebar-right">
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切换主题">
+          切换为夜间模式
+        </button>
         <h2 class="panel-title">本页小标题</h2>
         <nav id="page-toc">
           <ul id="toc-list" class="toc-list"></ul>
@@ -46,6 +57,26 @@
     </div>
 
     <script>
+      (function setupThemeToggle() {
+        var btn = document.getElementById("theme-toggle");
+        if (!btn) return;
+
+        function applyLabel(theme) {
+          btn.textContent = theme === "dark" ? "切换为日间模式" : "切换为夜间模式";
+        }
+
+        var currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+        applyLabel(currentTheme);
+
+        btn.addEventListener("click", function () {
+          var now = document.documentElement.getAttribute("data-theme") || "light";
+          var next = now === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", next);
+          localStorage.setItem("theme", next);
+          applyLabel(next);
+        });
+      })();
+
       (function buildToc() {
         var content = document.getElementById("doc-content");
         var tocList = document.getElementById("toc-list");
