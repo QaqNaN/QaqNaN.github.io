@@ -2,4 +2,4 @@
 
 欢迎！这里整理了智能体（Agent）相关的面试题
 
-[查看网页版](./index.html)
+[查看网页版](https://qaqnan.github.io/)

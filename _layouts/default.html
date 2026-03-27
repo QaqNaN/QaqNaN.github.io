@@ -22,23 +22,20 @@
         <h2 class="panel-title">目录</h2>
         <nav>
           <ul class="nav-list">
-            {% assign all_docs = site.pages | where_exp: "p", "p.path contains '.md'" %}
-            {% assign visible_docs = all_docs | where_exp: "p", "p.nav_exclude != true" %}
-            {% assign ordered_docs = visible_docs | where_exp: "p", "p.nav_order != nil" | sort: "nav_order" %}
-            {% assign unordered_docs = visible_docs | where_exp: "p", "p.nav_order == nil" | sort: "path" %}
-            {% assign docs = ordered_docs | concat: unordered_docs %}
-            {% for p in docs %}
-              {% unless p.url contains '/404' %}
+            {% if site.data.navigation and site.data.navigation.size > 0 %}
+              {% for item in site.data.navigation %}
+                {% assign nav_url_normalized = item.url | replace: '.html', '' %}
+                {% assign page_url_normalized = page.url | replace: '.html', '' %}
                 <li>
                   <a
-                    href="{{ p.url | relative_url }}"
-                    class="{% if p.url == page.url %}active{% endif %}"
+                    href="{{ item.url | relative_url }}"
+                    class="{% if nav_url_normalized == page_url_normalized %}active{% endif %}"
                   >
-                    {{ p.title | default: p.name | replace: '.md', '' | replace: '.html', '' }}
+                    {{ item.title }}
                   </a>
                 </li>
-              {% endunless %}
-            {% endfor %}
+              {% endfor %}
+            {% endif %}
           </ul>
         </nav>
       </aside>
